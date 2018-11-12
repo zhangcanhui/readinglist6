@@ -40,6 +40,7 @@ public class YshpasswordController {
     public List<Yshpassword> selectByStudnoLike(String studno,String username){
         List list=yshpasswordService.selectByStudnoAndUsernameLike(studno,username);
         return list;
+        
     }
 
     @RequestMapping("/checkuser")
