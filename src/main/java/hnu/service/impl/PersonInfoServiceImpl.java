@@ -16,7 +16,7 @@ import java.util.List;
  * Created by zhangcanhui on 2018/5/21.
  */
 @Service
-public class PersonInfoService implements PersonInfoService {
+public class PersonInfoServiceImpl implements PersonInfoService {
     @Autowired
     PersonInfoMapper personInfoMapper;
     @Autowired
