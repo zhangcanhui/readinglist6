@@ -2,10 +2,10 @@ package hnu.service.impl;
 
 import hnu.entity.PwCheckResult;
 import hnu.entity.UserInfo;
-import hnu.entity.Yshpassword;
+import hnu.entity.PersonInfo;
 import hnu.mapper.UserInfoMapper;
 import hnu.mapper.PersonInfoMapper;
-import hnu.service.YshpasswordService;
+import hnu.service.PersonInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,37 +16,37 @@ import java.util.List;
  * Created by zhangcanhui on 2018/5/21.
  */
 @Service
-public class YshpasswordServiceImpl implements YshpasswordService {
+public class PersonInfoService implements PersonInfoService {
     @Autowired
     PersonInfoMapper personInfoMapper;
     @Autowired
     UserInfoMapper userInfoMapper;
 
     @Override
-    public Yshpassword getpasswordOne(Integer id) {
+    public PersonInfo getpasswordOne(Integer id) {
         return personInfoMapper.selectByPrimaryKey(id);
     }
 
     @Override
-    public Yshpassword selectByStudno(String studno) {
+    public PersonInfo selectByStudno(String studno) {
         return personInfoMapper.selectByStudno(studno);
     }
 
     @Override
-    public Yshpassword selectByName(String name) {
+    public PersonInfo selectByName(String name) {
         return personInfoMapper.selectByName(name);
     }
 
     @Override
     public PwCheckResult checkAuthByStudNo(String studno,String pw) {
         //根据学号查出人员的基本信息，再比较密码是否正确
-        Yshpassword yshpassword= personInfoMapper.selectByStudno(studno);
+        PersonInfo personInfo = personInfoMapper.selectByStudno(studno);
         PwCheckResult pwCheckResult=new PwCheckResult();
-        if(yshpassword==null){
+        if(personInfo ==null){
             //没有这条记录
             pwCheckResult.setnCheckResult(3);//3号错没有这个学号
             pwCheckResult.setErrMsg("没有这个学号");
-        }else if(yshpassword.getPw().trim().equals(pw)){
+        }else if(personInfo.getPw().trim().equals(pw)){
             pwCheckResult.setnCheckResult(1);//身份验证通过
             pwCheckResult.setErrMsg("身份验证通过");
         }else{
@@ -59,14 +59,14 @@ public class YshpasswordServiceImpl implements YshpasswordService {
     @Override
     public PwCheckResult checkAuthByName(String name,String pw) {
         //根据姓名查出人员的基本信息，再比较密码是否正确
-        Yshpassword yshpassword= personInfoMapper.selectByName(name);
+        PersonInfo personInfo = personInfoMapper.selectByName(name);
         PwCheckResult pwCheckResult=new PwCheckResult();
-        if (yshpassword==null){
+        if (personInfo ==null){
             //没有这条记录
             pwCheckResult.setnCheckResult(4);//4号错没有这个姓名
             pwCheckResult.setErrMsg("没有这个姓名");
         }
-        else if (yshpassword.getPw().trim().equals(pw)){
+        else if (personInfo.getPw().trim().equals(pw)){
             pwCheckResult.setnCheckResult(1);//身份验证通过
             pwCheckResult.setErrMsg("身份验证通过");
         } else {
@@ -77,39 +77,39 @@ public class YshpasswordServiceImpl implements YshpasswordService {
     }
 
     @Override
-    public List<Yshpassword> getAll() {
+    public List<PersonInfo> getAll() {
         return personInfoMapper.selectAll();
     }
 
     @Override
-    public Yshpassword addOne(String studno, String username, String pw) {
+    public PersonInfo addOne(String studno, String username, String pw) {
         //增加一条记录
         //先查询是否有这条记录，根据学号查询
-        Yshpassword yshpasswordOne= personInfoMapper.selectByStudno(studno);
+        PersonInfo personInfoOne = personInfoMapper.selectByStudno(studno);
         int flag=0;
-        if(yshpasswordOne==null){
-            yshpasswordOne=new Yshpassword();
-            yshpasswordOne.setUsername(username);
-            yshpasswordOne.setPw(pw);
-            yshpasswordOne.setStudno(studno);
-            flag= personInfoMapper.insertYshpassword(yshpasswordOne);
+        if(personInfoOne ==null){
+            personInfoOne =new PersonInfo();
+            personInfoOne.setUsername(username);
+            personInfoOne.setPw(pw);
+            personInfoOne.setStudno(studno);
+            flag= personInfoMapper.insertYshpassword(personInfoOne);
             if(flag==1){
                 //插入成功则返回当前记录，记录号等于1
-                yshpasswordOne= personInfoMapper.selectByStudno(studno);
+                personInfoOne = personInfoMapper.selectByStudno(studno);
             }else{
-                yshpasswordOne.setId(-2);
-                yshpasswordOne.setUsername("插入不成功!");
+                personInfoOne.setId(-2);
+                personInfoOne.setUsername("插入不成功!");
             }
         }else{
-            yshpasswordOne.setId(-1);
-            yshpasswordOne.setUsername("学号已存在");
+            personInfoOne.setId(-1);
+            personInfoOne.setUsername("学号已存在");
         }
-        return yshpasswordOne;
+        return personInfoOne;
     }
 
     @Override
-    public List<Yshpassword> selectByStudnoAndUsernameLike(String studno, String username) {
-        List<Yshpassword> list=new ArrayList<Yshpassword>();
+    public List<PersonInfo> selectByStudnoAndUsernameLike(String studno, String username) {
+        List<PersonInfo> list=new ArrayList<PersonInfo>();
         if(((studno.trim().length()==0)||(studno.trim()==""))&&((username.trim().length()==0)||(username.trim()==""))){
             list= personInfoMapper.selectAll();
         }else{
@@ -119,16 +119,16 @@ public class YshpasswordServiceImpl implements YshpasswordService {
     }
 
     @Override
-    public Yshpassword updateYshpassword(Integer id, String username, String pw, String studno) {
+    public PersonInfo updateYshpassword(Integer id, String username, String pw, String studno) {
         int flag= personInfoMapper.updateYshpassword(id,username,pw,studno);
-        Yshpassword yshpassword=new Yshpassword();
+        PersonInfo personInfo =new PersonInfo();
         if(flag>0){
-             yshpassword= personInfoMapper.selectByPrimaryKey(id);
+             personInfo = personInfoMapper.selectByPrimaryKey(id);
         }else{
-            yshpassword.setId(-1);
-            yshpassword.setUsername("修改不成功！");
+            personInfo.setId(-1);
+            personInfo.setUsername("修改不成功！");
         }
-        return yshpassword;
+        return personInfo;
     }
 
     @Override

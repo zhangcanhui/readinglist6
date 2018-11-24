@@ -1,6 +1,6 @@
 package hnu.mapper;
 
-import hnu.entity.Yshpassword;
+import hnu.entity.PersonInfo;
 import hnu.mapper.provider.PersonInfoProvider;
 import org.apache.ibatis.annotations.*;
 
@@ -14,23 +14,23 @@ public interface PersonInfoMapper {
     int deleteByPrimaryKey(Integer id);
 
     @Select("select * from personinfo where id=#{id}")
-    Yshpassword selectByPrimaryKey(Integer id);
+    PersonInfo selectByPrimaryKey(Integer id);
 
     @Select("select * from personinfo where studno=#{studno}")
-    Yshpassword selectByStudno(String studno);
+    PersonInfo selectByStudno(String studno);
 
     @Select("select * from personinfo where username=#{username}")
-    Yshpassword selectByName(String name);
+    PersonInfo selectByName(String name);
 
     @Select("select * from personinfo")
-    List<Yshpassword> selectAll();
+    List<PersonInfo> selectAll();
 
     @Select("select * from personinfo where studno like CONCAT(CONCAT('%', #{studno}),'%')" +
             "and username like concat(concat('%',#{username}),'%')")
-    List<Yshpassword> selectByStudnoAndUsernameLike(@Param("studno") String studno,@Param("username") String username);
+    List<PersonInfo> selectByStudnoAndUsernameLike(@Param("studno") String studno, @Param("username") String username);
 
     @Insert("insert into personinfo(username,pw,studno) values(#{username},#{pw},#{studno})")
-    int insertYshpassword(Yshpassword yshpassword);
+    int insertYshpassword(PersonInfo personInfo);
 
     @UpdateProvider(type = PersonInfoProvider.class,method = "updateYshpassword")
     int updateYshpassword(Integer id,String username,String pw,String studno);

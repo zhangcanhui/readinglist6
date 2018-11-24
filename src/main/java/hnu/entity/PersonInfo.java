@@ -3,7 +3,7 @@ package hnu.entity;
 /**
  * Created by zhangcanhui on 2018/5/21.
  */
-public class Yshpassword {
+public class PersonInfo {
     private Integer id;
     private String username;
     private String pw;
