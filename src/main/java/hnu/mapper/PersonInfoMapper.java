@@ -1,7 +1,7 @@
 package hnu.mapper;
 
 import hnu.entity.Yshpassword;
-import hnu.mapper.provider.YshpasswordProvider;
+import hnu.mapper.provider.PersonInfoProvider;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by zhangcanhui on 2018/5/21.
  */
-public interface YshpasswordMapper {
+public interface PersonInfoMapper {
     @Delete("delete from personinfo where id=#{id}")
     int deleteByPrimaryKey(Integer id);
 
@@ -32,6 +32,6 @@ public interface YshpasswordMapper {
     @Insert("insert into personinfo(username,pw,studno) values(#{username},#{pw},#{studno})")
     int insertYshpassword(Yshpassword yshpassword);
 
-    @UpdateProvider(type = YshpasswordProvider.class,method = "updateYshpassword")
+    @UpdateProvider(type = PersonInfoProvider.class,method = "updateYshpassword")
     int updateYshpassword(Integer id,String username,String pw,String studno);
 }

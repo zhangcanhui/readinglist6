@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface BuildInfoService {
     List<BuildInfo> selectBuildInfo(Integer buildno, Integer buildcount, Integer familnum, Integer floornum, String buildname);
+
+    Integer insertBuildInfo(String buildname,Integer floornum,Integer familynumeachfloor);
 }

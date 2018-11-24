@@ -7,6 +7,9 @@ public class UserInfo {
     private int id;
     private String memberid;
     private String password;
+    private String location;
+    private String longandlati;
+    private Byte status;
 
     public int getId() {
         return id;
@@ -30,5 +33,29 @@ public class UserInfo {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getLongandlati() {
+        return longandlati;
+    }
+
+    public void setLongandlati(String longandlati) {
+        this.longandlati = longandlati;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 }

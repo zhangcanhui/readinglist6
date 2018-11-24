@@ -5,9 +5,9 @@ import org.springframework.util.StringUtils;
 /**
  * Created by zhangcanhui on 2018/5/23.
  */
-public class YshpasswordProvider {
+public class PersonInfoProvider {
     public String updateYshpassword(Integer id,String username,String pw,String studno){
-        StringBuffer sql=new StringBuffer("update yshpassword set");
+        StringBuffer sql=new StringBuffer("update personinfo set");
         if (!StringUtils.isEmpty(username)) {
             sql.append(" username='" + username + "'");
         }

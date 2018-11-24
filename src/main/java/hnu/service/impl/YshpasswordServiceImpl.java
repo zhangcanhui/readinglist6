@@ -4,7 +4,7 @@ import hnu.entity.PwCheckResult;
 import hnu.entity.UserInfo;
 import hnu.entity.Yshpassword;
 import hnu.mapper.UserInfoMapper;
-import hnu.mapper.YshpasswordMapper;
+import hnu.mapper.PersonInfoMapper;
 import hnu.service.YshpasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,29 +18,29 @@ import java.util.List;
 @Service
 public class YshpasswordServiceImpl implements YshpasswordService {
     @Autowired
-    YshpasswordMapper yshpasswordMapper;
+    PersonInfoMapper personInfoMapper;
     @Autowired
     UserInfoMapper userInfoMapper;
 
     @Override
     public Yshpassword getpasswordOne(Integer id) {
-        return yshpasswordMapper.selectByPrimaryKey(id);
+        return personInfoMapper.selectByPrimaryKey(id);
     }
 
     @Override
     public Yshpassword selectByStudno(String studno) {
-        return yshpasswordMapper.selectByStudno(studno);
+        return personInfoMapper.selectByStudno(studno);
     }
 
     @Override
     public Yshpassword selectByName(String name) {
-        return yshpasswordMapper.selectByName(name);
+        return personInfoMapper.selectByName(name);
     }
 
     @Override
     public PwCheckResult checkAuthByStudNo(String studno,String pw) {
         //根据学号查出人员的基本信息，再比较密码是否正确
-        Yshpassword yshpassword=yshpasswordMapper.selectByStudno(studno);
+        Yshpassword yshpassword= personInfoMapper.selectByStudno(studno);
         PwCheckResult pwCheckResult=new PwCheckResult();
         if(yshpassword==null){
             //没有这条记录
@@ -59,7 +59,7 @@ public class YshpasswordServiceImpl implements YshpasswordService {
     @Override
     public PwCheckResult checkAuthByName(String name,String pw) {
         //根据姓名查出人员的基本信息，再比较密码是否正确
-        Yshpassword yshpassword=yshpasswordMapper.selectByName(name);
+        Yshpassword yshpassword= personInfoMapper.selectByName(name);
         PwCheckResult pwCheckResult=new PwCheckResult();
         if (yshpassword==null){
             //没有这条记录
@@ -78,24 +78,24 @@ public class YshpasswordServiceImpl implements YshpasswordService {
 
     @Override
     public List<Yshpassword> getAll() {
-        return yshpasswordMapper.selectAll();
+        return personInfoMapper.selectAll();
     }
 
     @Override
     public Yshpassword addOne(String studno, String username, String pw) {
         //增加一条记录
         //先查询是否有这条记录，根据学号查询
-        Yshpassword yshpasswordOne=yshpasswordMapper.selectByStudno(studno);
+        Yshpassword yshpasswordOne= personInfoMapper.selectByStudno(studno);
         int flag=0;
         if(yshpasswordOne==null){
             yshpasswordOne=new Yshpassword();
             yshpasswordOne.setUsername(username);
             yshpasswordOne.setPw(pw);
             yshpasswordOne.setStudno(studno);
-            flag=yshpasswordMapper.insertYshpassword(yshpasswordOne);
+            flag= personInfoMapper.insertYshpassword(yshpasswordOne);
             if(flag==1){
                 //插入成功则返回当前记录，记录号等于1
-                yshpasswordOne=yshpasswordMapper.selectByStudno(studno);
+                yshpasswordOne= personInfoMapper.selectByStudno(studno);
             }else{
                 yshpasswordOne.setId(-2);
                 yshpasswordOne.setUsername("插入不成功!");
@@ -111,19 +111,19 @@ public class YshpasswordServiceImpl implements YshpasswordService {
     public List<Yshpassword> selectByStudnoAndUsernameLike(String studno, String username) {
         List<Yshpassword> list=new ArrayList<Yshpassword>();
         if(((studno.trim().length()==0)||(studno.trim()==""))&&((username.trim().length()==0)||(username.trim()==""))){
-            list=yshpasswordMapper.selectAll();
+            list= personInfoMapper.selectAll();
         }else{
-            list=yshpasswordMapper.selectByStudnoAndUsernameLike(studno,username);
+            list= personInfoMapper.selectByStudnoAndUsernameLike(studno,username);
         }
         return list;
     }
 
     @Override
     public Yshpassword updateYshpassword(Integer id, String username, String pw, String studno) {
-        int flag=yshpasswordMapper.updateYshpassword(id,username,pw,studno);
+        int flag= personInfoMapper.updateYshpassword(id,username,pw,studno);
         Yshpassword yshpassword=new Yshpassword();
         if(flag>0){
-             yshpassword=yshpasswordMapper.selectByPrimaryKey(id);
+             yshpassword= personInfoMapper.selectByPrimaryKey(id);
         }else{
             yshpassword.setId(-1);
             yshpassword.setUsername("修改不成功！");

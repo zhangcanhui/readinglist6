@@ -20,4 +20,13 @@ public class BuildInfoServiceImpl implements BuildInfoService{
         List list=buildInfoMapper.selectBuildInfo(buildno,buildcount,familnum,floornum,buildname);
         return list;
     }
+
+    public Integer insertBuildInfo(String buildname,Integer floornum,Integer familynumeachfloor){
+        BuildInfo buildInfo=new BuildInfo();
+        buildInfo.setBuildname(buildname);
+        buildInfo.setFloornum(floornum);
+        buildInfo.setFamilynumeachfloor(familynumeachfloor);
+        Integer flag=buildInfoMapper.insertBuildInfo(buildInfo);
+        return flag;
+    }
 }
